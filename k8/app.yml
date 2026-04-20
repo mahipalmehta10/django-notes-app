@@ -13,6 +13,10 @@ spec:
       labels:
         app: demo-app
     spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mysql.demo-app.svc.cluster.local 3306; do echo waiting for mysql; sleep 5; done']  
       containers:
       - name: demo-app-container
         image: mahipalmehta10/django-notes-app:latest
